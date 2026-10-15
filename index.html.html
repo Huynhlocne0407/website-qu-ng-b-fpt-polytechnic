@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPT Polytechnic - Demo Landing Page V4</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fptOrange: '#F26F21',
+                        fptDark: '#111827',
+                        fptLight: '#f8fafc'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Modal Animation */
+        .modal-enter-active, .modal-leave-active { transition: opacity 0.3s ease; }
+        .modal-enter-from, .modal-leave-to { opacity: 0; }
+        .modal-enter-active .modal-container { animation: scaleIn 0.3s ease-out; }
+        .modal-leave-active .modal-container { animation: scaleIn 0.3s ease-in reverse; }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="text-3xl font-extrabold text-fptOrange tracking-tight">
+                    FPT <span class="text-fptDark">Polytechnic</span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-fptOrange font-semibold transition">Trang chủ</a>
+                    <a href="#nganh-hoc" class="text-gray-600 hover:text-fptOrange font-semibold transition">Ngành học</a>
+                    <a href="#viec-lam" class="text-gray-600 hover:text-fptOrange font-semibold transition">Việc làm</a>
+                </nav>
+                <div class="flex gap-4">
+                    <button @click="showLoginModal = true" class="text-gray-600 hover:text-fptOrange font-semibold px-4 py-2 transition hidden md:block">
+                        Đăng nhập
+                    </button>
+                    <a href="#dang-ky" class="bg-fptOrange text-white px-6 py-2 rounded-lg font-bold hover:bg-orange-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        Đăng ký ngay
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Login / Register Modal -->
+        <transition name="modal">
+            <div v-if="showLoginModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50 px-4">
+                <div class="modal-container bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
+                    <button @click="showLoginModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                    
+                    <div class="flex border-b">
+                        <button @click="loginTab = 'login'" :class="{'border-b-2 border-fptOrange text-fptOrange font-bold': loginTab === 'login', 'text-gray-500 font-medium': loginTab !== 'login'}" class="w-1/2 py-4 text-center transition">Đăng nhập</button>
+                        <button @click="loginTab = 'register'" :class="{'border-b-2 border-fptOrange text-fptOrange font-bold': loginTab === 'register', 'text-gray-500 font-medium': loginTab !== 'register'}" class="w-1/2 py-4 text-center transition">Tạo tài khoản</button>
+                    </div>
+
+                    <div class="p-8">
+                        <form v-if="loginTab === 'login'" @submit.prevent="alert('Chức năng đang phát triển!')" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email hoặc Số điện thoại</label>
+                                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-fptOrange outline-none" placeholder="Nhập tài khoản">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                                <input type="password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-fptOrange outline-none" placeholder="Nhập mật khẩu">
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <label class="flex items-center gap-2"><input type="checkbox" class="text-fptOrange"> Ghi nhớ</label>
+                                <a href="#" class="text-fptOrange hover:underline">Quên mật khẩu?</a>
+                            </div>
+                            <button type="submit" class="w-full bg-fptOrange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">Đăng nhập</button>
+                        </form>
+
+                        <form v-if="loginTab === 'register'" @submit.prevent="alert('Chức năng đang phát triển!')" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
+                                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-fptOrange outline-none" placeholder="Nguyễn Văn A">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-fptOrange outline-none" placeholder="email@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                                <input type="password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-fptOrange outline-none" placeholder="Tạo mật khẩu">
+                            </div>
+                            <button type="submit" class="w-full bg-fptOrange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">Đăng ký tài khoản</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Hero Section -->
+        <section class="bg-fptDark text-white py-24 px-4 text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+            <div class="max-w-4xl mx-auto relative z-10 fade-in">
+                <span class="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-fptOrange font-semibold text-sm mb-4 border border-fptOrange/30">
+                    Tuyển sinh 2026
+                </span>
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                    Thực học - <span class="text-fptOrange">Thực nghiệp</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-10 text-gray-300 font-light">
+                    Môi trường đào tạo thực tế, cam kết 97.7% sinh viên có việc làm. <br>Bắt đầu hành trình IT của bạn ngay hôm nay!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#dang-ky" class="bg-fptOrange text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition shadow-lg shadow-orange-500/30">
+                        Xét tuyển ngay
+                    </a>
+                    <a href="#nganh-hoc" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-fptDark transition">
+                        Khám phá ngành học
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Thống kê (Counters) - SECTION ĐÃ ĐƯỢC THÊM LẠI -->
+        <section class="py-12 bg-white border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                <div class="p-4">
+                    <div class="text-5xl font-black text-fptOrange mb-2">97.7%</div>
+                    <div class="text-gray-500 font-medium text-lg">Sinh viên có việc làm sau tốt nghiệp</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-5xl font-black text-fptOrange mb-2">500+</div>
+                    <div class="text-gray-500 font-medium text-lg">Doanh nghiệp đối tác tuyển dụng</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-5xl font-black text-fptOrange mb-2">7</div>
+                    <div class="text-gray-500 font-medium text-lg">Cơ sở đào tạo trên toàn quốc</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ngành học -->
+        <section id="nganh-hoc" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Các khối ngành đào tạo</h2>
+                    <p class="text-gray-600 text-lg mb-8">Học những gì doanh nghiệp cần, làm những gì doanh nghiệp muốn</p>
+                    
+                    <button @click="toggleMajors" class="border-2 border-fptOrange text-fptOrange hover:bg-fptOrange hover:text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                        {{ showAllMajors ? 'Thu gọn' : 'Xem tất cả ngành học' }} 
+                        <i :class="showAllMajors ? 'fa-chevron-up' : 'fa-chevron-down'" class="fa-solid ml-2"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 transition-all duration-500">
+                    <div v-for="(major, index) in allMajors" :key="index" 
+                         v-show="index < 3 || showAllMajors"
+                         @click="openMajorDetail(major)" 
+                         class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden group cursor-pointer border border-gray-100 flex flex-col h-full fade-in">
+                        <div :class="`h-48 ${major.bgColor} flex items-center justify-center ${major.textColor} text-6xl group-hover:scale-110 transition duration-500`">
+                            <i :class="major.icon"></i>
+                        </div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <h3 class="text-2xl font-bold mb-3 text-gray-800">{{ major.title }}</h3>
+                            <p class="text-gray-600 mb-4 flex-grow">{{ major.shortDesc }}</p>
+                            <span class="text-fptOrange font-semibold group-hover:underline mt-auto inline-flex items-center">
+                                Xem chi tiết <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Major Detail Modal -->
+        <transition name="modal">
+            <div v-if="selectedMajor" class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-60 px-4 py-8">
+                <div class="modal-container bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-full flex flex-col relative overflow-hidden">
+                    <div :class="`${selectedMajor.bgColor} p-6 md:p-8 flex items-center justify-between`">
+                        <div class="flex items-center gap-4">
+                            <div :class="`w-16 h-16 bg-white rounded-xl flex items-center justify-center text-3xl shadow-sm ${selectedMajor.textColor}`">
+                                <i :class="selectedMajor.icon"></i>
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">{{ selectedMajor.title }}</h2>
+                        </div>
+                        <button @click="selectedMajor = null" class="w-10 h-10 bg-white/50 hover:bg-white rounded-full flex items-center justify-center text-gray-800 transition">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-6 md:p-8 overflow-y-auto flex-grow bg-gray-50">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="md:col-span-2 space-y-8">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-3 border-b-2 border-fptOrange pb-2 inline-block">Tổng quan chuyên ngành</h3>
+                                    <p class="text-gray-700 leading-relaxed">{{ selectedMajor.fullDesc }}</p>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800 mb-3 border-b-2 border-fptOrange pb-2 inline-block">Bạn sẽ học những gì?</h3>
+                                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <li v-for="(subject, idx) in selectedMajor.subjects" :key="idx" class="flex items-start gap-2 text-gray-700 bg-white p-3 rounded-lg border shadow-sm">
+                                            <i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                            <span>{{ subject }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="bg-white p-5 rounded-xl shadow-sm border border-orange-100">
+                                    <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                        <i class="fa-solid fa-briefcase text-fptOrange"></i> Cơ hội việc làm
+                                    </h4>
+                                    <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                                        <li v-for="(job, idx) in selectedMajor.jobs" :key="idx">{{ job }}</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-5 rounded-xl shadow-sm border border-blue-100">
+                                    <h4 class="font-bold text-gray-800 mb-1 flex items-center gap-2">
+                                        <i class="fa-solid fa-money-bill-wave text-blue-500"></i> Mức lương khởi điểm
+                                    </h4>
+                                    <p class="text-2xl font-black text-blue-600">{{ selectedMajor.salary }}</p>
+                                    <p class="text-xs text-gray-500">/tháng (Trung bình)</p>
+                                </div>
+                                <button @click="scrollToRegister" class="w-full bg-fptOrange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-md flex justify-center items-center gap-2">
+                                    Đăng ký ngành này <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Form Đăng ký -->
+        <section id="dang-ky" class="py-20 bg-white border-t">
+            <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row bg-fptDark rounded-3xl overflow-hidden shadow-2xl">
+                <div class="md:w-1/2 p-10 flex flex-col justify-center text-white bg-[url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80')] bg-cover bg-blend-overlay bg-fptDark/90">
+                    <h2 class="text-3xl font-bold mb-4">Đăng ký xét tuyển</h2>
+                    <p class="text-gray-300 mb-6">Chỉ mất 1 phút để bắt đầu tương lai. Điền thông tin ngay!</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-fptOrange"></i> Xét tuyển học bạ THPT</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-fptOrange"></i> Học thực hành 70%</li>
+                    </ul>
+                </div>
+                
+                <div class="md:w-1/2 p-10 bg-white">
+                    <form @submit.prevent="submitForm" class="space-y-5">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1 text-sm">Họ và tên *</label>
+                            <input v-model="form.name" type="text" required class="w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-fptOrange outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1 text-sm">Số điện thoại *</label>
+                            <input v-model="form.phone" type="tel" required class="w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-fptOrange outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1 text-sm">Ngành quan tâm</label>
+                            <select v-model="form.major" class="w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-fptOrange outline-none bg-white">
+                                <option value="" disabled>-- Chọn ngành học --</option>
+                                <option v-for="(m, idx) in allMajors" :key="idx" :value="m.id">{{ m.title }}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-fptOrange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition shadow-md mt-2">
+                            Gửi hồ sơ ngay
+                        </button>
+                        
+                        <div v-if="submitted" class="mt-4 p-3 bg-green-50 text-green-700 rounded-lg border border-green-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> Đăng ký thành công!
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm">
+            <p>&copy; 2026 FPT Polytechnic. Giao diện Demo xây dựng bằng Vue 3 + Tailwind CSS.</p>
+        </footer>
+    </div>
+
+    <!-- Vue Logic -->
+    <script>
+        const { createApp, ref } = Vue
+        
+        createApp({
+            setup() {
+                const showLoginModal = ref(false)
+                const loginTab = ref('login')
+                const showAllMajors = ref(false)
+                const selectedMajor = ref(null)
+
+                const form = ref({ name: '', phone: '', major: '' })
+                const submitted = ref(false)
+
+                const allMajors = ref([
+                    {
+                        id: 'cntt-pm', title: 'Phát triển phần mềm', shortDesc: 'Lập trình Web, C#, Java, .NET. Xây dựng các hệ thống phần mềm doanh nghiệp.', icon: 'fa-solid fa-laptop-code', bgColor: 'bg-blue-100', textColor: 'text-blue-500',
+                        fullDesc: 'Chuyên ngành Phát triển phần mềm trang bị cho sinh viên kỹ năng lập trình chuyên sâu với các ngôn ngữ phổ biến như Java, C# (.NET Core), Javascript (Vue.js, React).',
+                        subjects: ['Lập trình C# cơ bản & nâng cao', 'Kiến trúc phần mềm (Clean Architecture)', 'Lập trình Web Frontend', 'Cơ sở dữ liệu SQL Server'],
+                        jobs: ['Lập trình viên Backend/Frontend', 'Chuyên viên phân tích hệ thống'], salary: '10 - 25 Triệu'
+                    },
+                    {
+                        id: 'cntt-qa', title: 'Kiểm thử phần mềm (QA/Tester)', shortDesc: 'Đảm bảo chất lượng phần mềm, viết Test Case, Test Automation.', icon: 'fa-solid fa-bug-slash', bgColor: 'bg-indigo-100', textColor: 'text-indigo-500',
+                        fullDesc: 'Bạn sẽ được học các kỹ thuật thiết kế kịch bản kiểm thử, kiểm thử tự động hóa sử dụng NUnit, xUnit và Selenium WebDriver.',
+                        subjects: ['Nhập môn Kiểm thử phần mềm', 'Kiểm thử tự động (Selenium)', 'Quản lý chất lượng dự án Agile/Scrum', 'Phân tích yêu cầu khách hàng'],
+                        jobs: ['Chuyên viên Tester / QC', 'Kỹ sư Automation Test (QA)'], salary: '9 - 20 Triệu'
+                    },
+                    {
+                        id: 'tkdh', title: 'Thiết kế đồ họa', shortDesc: 'Thiết kế 2D, 3D, Dựng phim, Chỉnh sửa ảnh chuyên nghiệp.', icon: 'fa-solid fa-pen-nib', bgColor: 'bg-pink-100', textColor: 'text-pink-500',
+                        fullDesc: 'Chuyên ngành Thiết kế đồ họa đào tạo sinh viên trở thành những nhà thiết kế sáng tạo từ UI/UX đến xử lý hình ảnh.',
+                        subjects: ['Adobe Photoshop & Illustrator', 'Thiết kế UI/UX (Figma)', 'Dựng phim', 'Nghệ thuật Typography'],
+                        jobs: ['Designer 2D/3D', 'UI/UX Designer'], salary: '9 - 18 Triệu'
+                    },
+                    {
+                        id: 'digital-mkt', title: 'Digital Marketing', shortDesc: 'Chạy Ads (FB, Google), SEO, Content Marketing.', icon: 'fa-solid fa-bullhorn', bgColor: 'bg-green-100', textColor: 'text-green-500',
+                        fullDesc: 'Học cách bùng nổ doanh số trên môi trường số. Đào sâu vào SEO, quản trị chiến dịch quảng cáo, đọc hiểu chỉ số Analytics.',
+                        subjects: ['SEO & SEM cơ bản', 'Social Media Marketing', 'Viết Content Quảng cáo', 'Phân tích dữ liệu Digital (GA4)'],
+                        jobs: ['Chuyên viên Digital Marketing', 'Nhân viên chạy Ads'], salary: '8 - 20 Triệu'
+                    },
+                    {
+                        id: 'qtkd', title: 'Quản trị kinh doanh', shortDesc: 'Quản lý doanh nghiệp, Sales, Khởi sự doanh nghiệp (Startup).', icon: 'fa-solid fa-chart-line', bgColor: 'bg-yellow-100', textColor: 'text-yellow-600',
+                        fullDesc: 'Trang bị kiến thức quản trị thực chiến: Từ mô hình kinh doanh, quản lý nhân sự, đến kỹ năng bán hàng.',
+                        subjects: ['Khởi sự doanh nghiệp', 'Kỹ năng đàm phán & bán hàng', 'Quản trị nhân sự', 'Quản trị tài chính'],
+                        jobs: ['Chuyên viên Sale B2B/B2C', 'Trợ lý giám đốc'], salary: '8 - Không giới hạn'
+                    },
+                     {
+                        id: 'nhks', title: 'Quản trị Khách sạn', shortDesc: 'Nghiệp vụ lễ tân, Buồng phòng, F&B, Quản lý sự kiện.', icon: 'fa-solid fa-concierge-bell', bgColor: 'bg-teal-100', textColor: 'text-teal-600',
+                        fullDesc: 'Thực hành nghiệp vụ tại phòng mô phỏng chuẩn khách sạn 4-5 sao. Học sâu về quản lý buồng phòng, nhà hàng, lễ tân.',
+                        subjects: ['Nghiệp vụ Lễ tân', 'Nghiệp vụ Buồng phòng', 'Quản trị F&B', 'Tiếng Anh chuyên ngành'],
+                        jobs: ['Nhân viên Lễ tân', 'Giám sát buồng phòng'], salary: '7 - 15 Triệu'
+                    }
+                ])
+
+                const toggleMajors = () => { showAllMajors.value = !showAllMajors.value; }
+                const openMajorDetail = (major) => { selectedMajor.value = major }
+                const scrollToRegister = () => {
+                    form.value.major = selectedMajor.value.id
+                    selectedMajor.value = null
+                    document.getElementById('dang-ky').scrollIntoView({ behavior: 'smooth' })
+                }
+                const submitForm = () => {
+                    if(form.value.name && form.value.phone) {
+                        submitted.value = true;
+                        setTimeout(() => { submitted.value = false; form.value.name = ''; form.value.phone = ''; form.value.major = ''; }, 3000)
+                    }
+                }
+
+                return { showLoginModal, loginTab, showAllMajors, selectedMajor, allMajors, form, submitted, toggleMajors, openMajorDetail, scrollToRegister, submitForm }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
